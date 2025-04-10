@@ -243,6 +243,25 @@ async def handle_location(message: Message, state: FSMContext):
 
 # === ЗАПУСК ===
 if __name__ == "__main__":
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    # Простой HTTP-сервер (чтобы Render думал, что бот — Web Service)
+    class SimpleHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"Bot is running.")
+
+    def run_http_server():
+        server = HTTPServer(('0.0.0.0', 10000), SimpleHandler)
+        print("Фейковый HTTP-сервер запущен на порту 10000")
+        server.serve_forever()
+
+    # Запускаем HTTP-сервер в отдельном потоке
+    threading.Thread(target=run_http_server).start()
+
+    # Создаём папку и запускаем Telegram-бота
     os.makedirs("user_data", exist_ok=True)
-    print("Бот запускается... Ожидаем ввода команды /start или нажатия кнопки 'Старт'")
+    print("Бот запускается... Ожидаем ввода команды /start")
     asyncio.run(dp.start_polling(bot))
