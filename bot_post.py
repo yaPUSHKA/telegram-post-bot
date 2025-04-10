@@ -11,8 +11,8 @@ from PIL import Image, ImageOps
 import os
 
 # === НАСТРОЙКИ ===
-BOT_TOKEN = "8011044410:AAH0-iyl2PD3taKZIOTsZGExLnsawej1GNA"
-CHANNEL_ID = "@autokey_orenburg"  # например: @autokey_orenburg
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
 FRAME_PATH = "templates/frame.png"  # рамка (PNG с прозрачностью)
 DB_PATH = "posts.db"
 
